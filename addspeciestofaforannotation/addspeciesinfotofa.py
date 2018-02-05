@@ -1,3 +1,4 @@
+import sys
 
 def readfafile(fafilepath):
     with open(fafilepath) as f:
@@ -28,14 +29,21 @@ def readphylumfile(phylumfilepath):
     return phylumdict
 
 
-# def output():
+def output(fafile, phylumfile):
 
-fa = readfafile("./11-L_HFGMYALXX_L3.unigene.fa")
-phylum = readphylumfile("./11-L_HFGMYALXX_L3.pyhum_1")
+    fa = readfafile(fafile)
+    phylum = readphylumfile(phylumfile)
 
-for name, seq in fa.items():
-    if name in phylum:
-        for species in phylum[name]:
-            print("_".join((species, name)) + "\n" + seq)
+    for name, seq in fa.items():
+        if name in phylum:
+            for species in phylum[name]:
+                    print("_".join((species, name)) + "\n" + seq)
 
-# output()
+if __name__ == "__main__":
+    if 3 != len(sys.argv):
+        print("Usage:\n\tpython {0} fafilepath phylumfile > outputfile".format(sys.argv[0]))
+        exit(0)
+    else:
+        fafile = sys.argv[1]
+        phylumfile = sys.argv[2]
+        output(fafile, phylumfile)
