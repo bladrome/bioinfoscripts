@@ -5,10 +5,12 @@
 1. fafile
 
 >seq_name
+
 >sequences
 2. pyhum
 
 >species
+
 >seq_names
 
 ## function
@@ -16,6 +18,7 @@
 
 3. output
 >species_seq_name
+
 >sequences
 4. file format:
 
