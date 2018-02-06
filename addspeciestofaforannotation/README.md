@@ -11,6 +11,7 @@
 
 ## function
 **Find species in pylum file for each seqname belongs to and add them before each seqname**
+
 3. output
 >species_seq_name
 >sequences
