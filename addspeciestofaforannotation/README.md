@@ -16,6 +16,7 @@
 >species_seq_name
 >sequences
 4. file format:
+
     11-L_HFGMYALXX_L3.unigene.fa
 >\>7-L_HFGMYALXX_L3.gap_remove.scatigs.500_seq_GI_0017323
 AATATAATTAATTATAATAATAATTTAAATAATAGCCAAATTTTAATGAATGACCGGAAAAAAA......
