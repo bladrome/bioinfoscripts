@@ -28,6 +28,7 @@ $$ ESABO\ score = \frac{x-mean(y)}{stardard\ deviation\ of\ y}$$
     functions:
     - esabo:Given a binary aoundance matrix, return the esabo matrix
     - esabo\_jaccardindex:Given a binary aboundance matrix, return the entropy matrix of jaccard index
+- spearman: Calculate spearman rank matrix of aboundance matrix.
 
 
 ## Run
