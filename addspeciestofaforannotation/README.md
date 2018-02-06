@@ -3,9 +3,11 @@
 
 ## format
 1. fafile
+
 >seq_name
 >sequences
 2. pyhum
+
 >species
 >seq_names
 
