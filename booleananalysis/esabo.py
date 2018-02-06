@@ -1,7 +1,7 @@
 import numpy as np
 
-n_samples = 100
-n_species = 100
+n_samples = 20
+n_species = 20
 
 
 def jaccardindex(vab_p, vab_q):
