@@ -41,7 +41,7 @@ def output(fafile, phylumfile):
 
 if __name__ == "__main__":
     if 3 != len(sys.argv):
-        print("Usage:\n\tpython {0} fafilepath phylumfile > outputfile".format(sys.argv[0]))
+        print("Usage:\n\tpython {0} fafile phylumfile > outputfile".format(sys.argv[0]))
         exit(0)
     else:
         fafile = sys.argv[1]
