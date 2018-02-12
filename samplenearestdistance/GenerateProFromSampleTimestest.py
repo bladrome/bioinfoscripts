@@ -1,9 +1,13 @@
 #!/usr/bin/env python
 import numpy as np
 
+SAMPLETIMESTESTFILE = "./sampleTimestest.txt"
+MERGEFILE = "./merge.offtarget.txt"
+
+
 chrname = list()
 chrcount = list()
-with open("./sampleTimestest.txt") as f:
+with open(SAMPLETIMESTESTFILE) as f:
     for line in f.readlines():
         index = (line.split()[0])
         chrname.append(index)
@@ -13,7 +17,7 @@ with open("./sampleTimestest.txt") as f:
         chrcount.append(numlist)
 
 mergeresultlist = list()
-with open("./merge.offtarget.txt") as f:
+with open(MERGEFILE) as f:
     for line in f.readlines():
         if line.split()[0] in ['#']:
             continue
