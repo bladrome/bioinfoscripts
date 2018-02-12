@@ -1,15 +1,13 @@
-"""
-jkfasdl;
-"""
 import os
 import re
 
 region_length = 1000
 
 CHR_depth_dict = {}
-# infilename = "./sample.discordants.bam"
-infilename = "./samhead1"
+
+infilename = "./sample.discordants.bam"
 # filein = open(infile)
+
 chr_list = [str(i + 1) for i in range(29)]
 filein = os.popen('samtools view {0}'.format(infilename))
 for read in filein:
