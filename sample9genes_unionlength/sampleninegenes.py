@@ -12,17 +12,20 @@ def readdata(filepath):
 
     return samples
 
-samples = readdata("ninegenes.csv")
 
 if __name__ == "__main__":
     import sys
-    sample_times = int(sys.argv[1])
-    for i in range(sample_times):
-        printlist = list()
-        for i in range(1, 9):
-            index = np.random.randint(0, 8, i)
-            sapset = set()
-            for i in index:
-                sapset = sapset.union(samples[i])
-            printlist.append(str(len(sapset)))
-        print(",".join(printlist))
+    if len(sys.argv) != 3:
+        print("Usage:\n\t {0} csvfile {1}".format(sys.argv[0], "sampletimes"))
+    else:
+        samples = readdata(sys.argv[1])
+        sample_times = int(sys.argv[2])
+        for i in range(sample_times):
+            printlist = list()
+            for i in range(1, len(samples)):
+                index = np.random.randint(0, len(samples) - 1, i)
+                sapset = set()
+                for i in index:
+                    sapset = sapset.union(samples[i])
+                printlist.append(str(len(sapset)))
+            print(",".join(printlist))
