@@ -17,7 +17,7 @@ varx = np.array(data[:, 1:], dtype=float)
 varsum = np.sum(varx, axis=0)
 res = varx / varsum
 
-res = np.column_stack((data[:, 0].reshape(10, 1), res))
+res = np.column_stack((data[:, 0].reshape(len(res), 1), res))
 
 print(header)
 for i in res:
