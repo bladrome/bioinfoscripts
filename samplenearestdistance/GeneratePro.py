@@ -6,8 +6,12 @@
 # Last Modified Date: 06.12.2017
 import numpy as np
 
+# Input file
+GCFFILE = "./GCF_001704415.1_ARS1_assembly_report.txt"
+MERGEFILE = "./merge.offtarget.txt"
+
 linelist = list()
-with open("./GCF_001704415.1_ARS1_assembly_report.txt") as f:
+with open(GCFFILE) as f:
     for line in f.readlines():
         beginer = line.split()[0]
         if beginer in ['#', '##']:
@@ -29,7 +33,7 @@ for i in range(len(chrlength)):
     chrcount.append(a)
 
 mergeresultlist = list()
-with open("./merge.offtarget.txt") as f:
+with open(MERGEFILE) as f:
     for line in f.readlines():
         if line.split()[0] in ['#']:
             continue
