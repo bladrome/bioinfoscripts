@@ -1,6 +1,5 @@
 # Entropy Shifts of Abundance Vectors under Boolean Operations (ESABO)
-[ESABO](Boolean analysis reveals systematic interactions among low-abundance species in the human gut microbiome)
-
+[ESABO](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005361)
 ## Algorithm
 Propose a novel analysis method based on Boolean operations applied to microbial co-occurrence patterns in low aboundance species.
 The interaction bewteen two species is expected to be seen in ESABO score.
