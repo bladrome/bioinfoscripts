@@ -1,13 +1,16 @@
 #include <iostream>
 #include <algorithm>
 #include <random>
+#include <string>
 #include <cmath>
 #include <chrono>
+#include <boost/program_options.hpp>
 #include <array>
 #include <vector>
-#include "readcsv.h"
+#include "csvutils.h"
 
 using namespace std;
+namespace po = boost::program_options;
 
 int count_one(vector<int> a);
 int count_zero(vector<int> a);
@@ -19,20 +22,54 @@ double vector_entropy(vector<double> p);
 
 int main(int argc, char *argv[]) {
 
-    //vector< vector<double> > data = readcsv((char*)"../abundance.cvs");
-    vector< vector<double> > data = readcsv((char*)"./journal.pgen.1005846.s011.csv");
-    cout << " 111 \n";
-    vector< vector<int> > booldata = binarize(data, 0.0001);
-    cout << " 222 \n";
-    vector< vector<int> > transdata = transpose(booldata);
-    cout << " 333 \n";
-    for(unsigned int i = 0; i < transdata.size(); ++i){
-        for(unsigned int j = 0; j < transdata.size(); ++j){
-            cout << entropy(transdata[i], transdata[j]) << " ";
-        }
-        cout << endl;
+    /* program_options
+    po::option_description desc("Options");
+    desc.add_options()
+        ("csvfile", po::value<char*>(), "set csv file path")
+        ("threhold", po::value<double>(), "set binarize threhold")
+        ;
+    po::variables_map vm; po::store(po::parse_command_line(argc, argv, desc), vm);
+    po::notify(vm);
+
+    if( vm.count("threhold") ){
+        cout << "threhold" << vm["threhold"].as<double>() << endl;
+        return 1;
+    }
+    if ( vm.count("csvfile") ){
+        cout << "CSVfile" << vm["csvfile"] << endl;
+        return 1;
+    }
+    */
+
+    if (argc != 4){
+        cout << "Usage: " << argv[0] << " " <<  "inputfile.csv " <<  "threhold " << " outputfile.csv" << endl;
+        return 1;
     }
 
+    vector< vector<double> > data = readcsv(argv[1]);
+    vector< vector<int> > booldata = binarize(data, atof(argv[2]));
+    vector< vector<int> > transdata = transpose(booldata);
+
+    vector< vector<double> > result;
+    vector<double> resline(transdata[0].size(), 0);
+    for(unsigned int i = 0; i < transdata.size(); ++i)
+        result.push_back(resline);
+    
+    for(unsigned int i = 0; i < transdata.size(); ++i){
+        for(unsigned int j = i; j < transdata.size(); ++j){
+            result[i][j] = result[j][i] = entropy(transdata[i], transdata[j]);
+        }
+    }
+
+    writecsv( result, argv[3]);
+    
+    /* stardard output
+    for(unsigned int i = 0; i < result.size(); ++i){
+        for(unsigned int j = 0; j < result.size(); ++j)
+            cout << result[i][j] << " ";
+        cout << endl;
+    }
+    */
 
   return 0;
 }

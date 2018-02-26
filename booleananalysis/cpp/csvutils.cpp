@@ -3,8 +3,10 @@
 #include <fstream>
 #include <string>
 #include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string/join.hpp>
+#include <boost/range/adaptor/transformed.hpp>
 
-#include "readcsv.h"
+#include "csvutils.h"
 
 using namespace std;
 
@@ -55,6 +57,25 @@ vector< vector<int> > transpose(vector< vector<int> >& data){
 
     return ret;
 }
+
+int writecsv(vector< vector<double> >& data, char* filepath){
+    ofstream ofs;
+    ofs.open(filepath, ios_base::out);
+    for (unsigned int i = 0; i < data.size(); ++i){
+        vector<string> stringline;
+        for (unsigned int j = 0; j < data.size(); ++j){
+            stringline.push_back(boost::lexical_cast<string>(data[i][j]));
+        }
+        ofs << boost::join(stringline, ", ") << endl;
+        //vector<double> tmp = data.at(i);
+        //cout << "line size(): " << tmp.size();
+        //ofs << boost::join(tmp | boost::adaptors::transformed( static_cast<string(*)(double)>(std::to_string)), ", ") << endl;
+    }
+    ofs.close();
+
+    return 0;
+}
+
 /*
 int main(int argc, char* argv[])
 {
