@@ -60,8 +60,8 @@ def esabo(abundance_matrix):
     row_length = len(abundance_matrix[:, 0])
     res = np.zeros(shape=(col_length, col_length), dtype=float)
     for i in range(0, col_length):
-        for j in range(0, col_length):
-            res[i][j] = z_score_entropy(abundance_matrix[:, i], abundance_matrix[:, j], col_length)
+        for j in range(0, i):
+            res[j][i] = res[i][j] = z_score_entropy(abundance_matrix[:, i], abundance_matrix[:, j], col_length)
 
     return res
 
