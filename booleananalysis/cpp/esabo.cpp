@@ -51,10 +51,10 @@ int main(int argc, char *argv[]) {
     vector< vector<int> > transdata = transpose(booldata);
 
     vector< vector<double> > result;
-    vector<double> resline(transdata[0].size(), 0);
+    vector<double> resline(transdata.size(), 0);
     for(unsigned int i = 0; i < transdata.size(); ++i)
         result.push_back(resline);
-    
+
     for(unsigned int i = 0; i < transdata.size(); ++i){
         for(unsigned int j = i; j < transdata.size(); ++j){
             result[i][j] = result[j][i] = entropy(transdata[i], transdata[j]);

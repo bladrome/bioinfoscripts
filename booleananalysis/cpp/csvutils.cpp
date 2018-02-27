@@ -79,7 +79,7 @@ int writecsv(vector< vector<double> >& data, char* filepath){
 /*
 int main(int argc, char* argv[])
 {
-    vector< vector<double> > data = readcsv((char*)"../abundance.cvs");
+    vector< vector<double> > data = readcsv((char*)"../abundance.csv");
     vector< vector<int> > booldata = binarize(data, 0.001);
     vector< vector<int> > transdata = transpose(booldata);
     for(unsigned int i = 0; i < transdata.size(); ++i){

@@ -1,10 +1,7 @@
-
-
-
 all:run
 
 esabo:esabo.cpp csvutils.cpp
-	g++ -o $@ $^ -std=c++11 -g
+	g++ -o $@ $^ -std=c++0x -static-libstdc++ -g
 
 .PHONY:clean run
 clean:
