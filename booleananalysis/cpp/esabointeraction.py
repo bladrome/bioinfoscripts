@@ -16,4 +16,3 @@ print(posset)
 print("Negative interaction")
 print(negset)
 
-
