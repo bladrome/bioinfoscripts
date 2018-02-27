@@ -1,7 +1,11 @@
+import sys
 import numpy as np
 import pandas as pd
 
-threhold = 0.5
+if len(sys.argv) != 2:
+    sys.exit(1)
+
+threhold = float(sys.argv[1])
 
 data = pd.read_csv("result.csv", header=None)
 
@@ -15,4 +19,3 @@ print("Positive interaction")
 print(posset)
 print("Negative interaction")
 print(negset)
-
