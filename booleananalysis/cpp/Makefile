@@ -8,4 +8,4 @@ clean:
 	rm esabo
 
 run:esabo
-	./esabo ./journal.pgen.1005846.s011.csv 0.01 result.csv
+	./esabo ../journal.pgen.1005846.s011.csv 0.01 result.csv
