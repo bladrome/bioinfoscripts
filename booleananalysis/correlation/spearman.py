@@ -1,7 +1,5 @@
 import numpy as np
 from scipy import stats
-import matplotlib.pyplot as plt
-import python.esabo
 
 species = ""
 def readdata(filepath):
@@ -19,7 +17,7 @@ def readdata(filepath):
     return np.array(datalist)
 
 
-X = readdata("./abundance")
+X = readdata("../abundance")
 
 length = X.shape[1]
 species_names = species.split()
@@ -30,7 +28,6 @@ pvalue = np.zeros((length, length), np.float)
 for i in range(length):
     for j in range(length):
         corelation[i][j], pvalue[i][j] = stats.spearmanr(X[:, i], X[:, j])
-        # ESABO
 
 pvalueshreshold = 1e-1
 corelation[pvalue > pvalueshreshold] = 0

@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 
 if len(sys.argv) != 2:
+    print("Usage: {0} {1}".format(sys.argv[0], "threhold"))
     sys.exit(1)
 
 threhold = float(sys.argv[1])
