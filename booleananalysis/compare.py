@@ -20,7 +20,7 @@ esabo_bin = "./cpp/esabo"
 
 
 def jaccard_similarity(a, b):
-    return 0 if len(a | b) == 0 else float(len(a & b)) / len(a | b)
+    return 0.0 if len(a | b) == 0 else float(len(a & b)) / len(a | b)
 
 
 for binary in binary_threhold:
@@ -36,7 +36,12 @@ for binary in binary_threhold:
                 corr_posset, corr_negset =\
                     corr.coef_interaction(csvfile, pvalue, coef)
 
-                print(binary, entropy, pvalue, coef),
+                # print(binary, entropy, pvalue, coef),
+                print("{0} {1} {2} {3}".format(
+                    len(esabo_posset),
+                    len(esabo_negset),
+                    len(corr_posset),
+                    len(corr_negset))),
                 print("positive:{0}".format(
                     jaccard_similarity(esabo_posset, corr_posset)))
                 print("negative:{0}".format(
