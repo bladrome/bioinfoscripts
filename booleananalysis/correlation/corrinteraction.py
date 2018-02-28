@@ -4,7 +4,7 @@ import scipy.stats as stats
 import pandas as pd
 
 
-def coef_interaction(csvfile, pvalue_threhold, ceof_threhold):
+def coef_interaction(csvfile, pvalue_threhold, coef_threhold):
     data = pd.read_csv(csvfile, header=None)
     coef, pvalue = stats.spearmanr(data, axis=0)
     coef = pd.DataFrame(coef)
@@ -19,10 +19,10 @@ def coef_interaction(csvfile, pvalue_threhold, ceof_threhold):
     posset = set(zip(pos[0], pos[1]))
     negset = set(zip(neg[0], neg[1]))
 
-    print("Positive interaction")
-    print(posset)
-    print("Negative interaction")
-    print(negset)
+    # print("Positive interaction")
+    # print(posset)
+    # print("Negative interaction")
+    # print(negset)
 
     return posset, negset
 
