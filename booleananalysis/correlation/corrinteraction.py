@@ -10,8 +10,8 @@ def coef_interaction(csvfile, pvalue_threhold, coef_threhold):
     coef = pd.DataFrame(coef)
     pvalue = pd.DataFrame(pvalue)
 
-    print("Origin coef")
-    print(coef)
+    # print("Origin coef")
+    # print(coef)
     # print("Pvalue coef")
     # print(pvalue)
 
