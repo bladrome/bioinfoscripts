@@ -24,4 +24,5 @@ if __name__ == "__main__":
         print("Usage: {0} {1}".format(sys.argv[0], "threhold"))
         sys.exit(1)
     threhold = float(sys.argv[1])
-    esabo_interaction("./result.csv", threhold)
+    posset, negset = esabo_interaction("./result.csv", threhold)
+    print((posset, negset))
