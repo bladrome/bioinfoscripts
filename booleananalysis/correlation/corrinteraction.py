@@ -6,6 +6,14 @@ import pandas as pd
 
 def coef_interaction(csvfile, pvalue_threhold, coef_threhold):
     data = pd.read_csv(csvfile, header=None)
+
+    # Add negative corelation
+    # print(data)
+    # data[1] = -data[1]
+    # data[3] = -data[3]
+    # print(data)
+    # Test PASS
+
     coef, pvalue = stats.spearmanr(data, axis=0)
     coef = pd.DataFrame(coef)
     pvalue = pd.DataFrame(pvalue)
