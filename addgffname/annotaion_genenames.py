@@ -1,9 +1,16 @@
+import sys
 import numpy as np
 import pandas as pd
 import gffread
 
-fstdata = pd.read_table("./D.S.ZFst.txt")
-gffdata = gffread.readgff("./ASM_chr_10000.gff")
+if len(sys.argv) < 4:
+    print("Usage:{0} {1} {2} {3}".format(sys.argv[0], "fst_file", "gff_file", "chr_list"))
+    sys.exit(1)
+
+fstdata = pd.read_table(sys.argv[1])
+# fstdata = fstdata[0:int(len(fstdata)/100)]
+gffdata = gffread.readgff(sys.argv[2])
+#gffdata = gffread.readgff("./ASM_chr.gff")
 
 fstdata.rename(columns={'CHROM': 'chromosome',
                         'BIN_START': 'fst_start',
@@ -13,7 +20,7 @@ fstdata['chromosome'] = fstdata['chromosome'].astype(str)
 
 annodata = pd.DataFrame()
 # for chromosome in set(fstdata['chromosome']):
-for chromosome in set(['1']):
+for chromosome in set([sys.argv[i] for i in range(3, len(sys.argv))]):
     fst = fstdata[fstdata['chromosome'] == chromosome]
     gff = gffdata[gffdata['chromosome'] == chromosome]
 
@@ -27,6 +34,8 @@ for chromosome in set(['1']):
     annodata = annodata.append(cross)
 
 
+annodata = annodata[np.logical_not(annodata['gene'].isnull())]
+annodata = annodata[np.logical_not(annodata.duplicated(('chromosome', 'fst_start', 'fst_end', 'gene')))]
 annodata = annodata[np.logical_not(annodata.duplicated())]
 annodata.to_csv("result_anno.csv", index=False)
 # mergechr1 = d1chr1.merge(d2chr1, on="chromosome", copy=False)
