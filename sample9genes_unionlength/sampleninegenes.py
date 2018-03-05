@@ -24,8 +24,10 @@ if __name__ == "__main__":
             printlist = list()
             for i in range(1, len(samples)):
                 index = np.random.randint(0, len(samples) - 1, i)
-                sapset = set()
+                sapset = samples[0]
                 for i in index:
                     sapset = sapset.union(samples[i])
+                    # sapset = sapset & samples[i]
+                    # sapset = sapset | samples[i]
                 printlist.append(str(len(sapset)))
             print(",".join(printlist))
