@@ -26,7 +26,7 @@ for chromosome in set([sys.argv[i] for i in range(3, len(sys.argv))]):
 
     cross = fst.merge(gff, on="chromosome", copy=False)
     start = np.max((cross['fst_start'], cross['gff_start']), axis=0)
-    end = np.max((cross['fst_end'], cross['gff_end']), axis=0)
+    end = np.min((cross['fst_end'], cross['gff_end']), axis=0)
     cross = cross[end - start > 0]
     outcols = list(fstdata.columns)
     outcols.extend(['gff_start', 'gff_end', 'gene'])
