@@ -26,6 +26,6 @@ def readgff(filepath):
     gffdata[0] = gffdata[0].astype(str)
     gffdata.rename(columns={0: "chromosome", 3: "gff_start",
                             4: "gff_end", 9: "gene"}, inplace=True)
-    gffdata = gffdata[np.logical_not(gffdata['gene'].isna())]
+    #gffdata = gffdata[np.logical_not(gffdata['gene'].isna())]
 
     return gffdata
