@@ -26,9 +26,15 @@ for chromosome in set([sys.argv[i] for i in range(3, len(sys.argv) - 1)]):
     fst = fstdata[fstdata['chromosome'] == chromosome]
     gff = gffdata[gffdata['chromosome'] == chromosome]
 
+    print(gff[gff.gene == "LOC102185350"])
+    # print(fst.chromosome)
+    # print(gff.chromosome)
+
     cross = fst.merge(gff, on="chromosome", copy=False)
     start = np.max((cross['fst_start'], cross['gff_start']), axis=0)
     end = np.min((cross['fst_end'], cross['gff_end']), axis=0)
+
+    print(len(cross))
 
     cutoff = end - start > 0
     start = start[cutoff]

@@ -13,19 +13,19 @@ def get_genename_list(annotation):
 
 
 def readgff(filepath):
-    gffdata = pd.read_table(filepath, skiprows=7, header=None,
-                            comment="#")
+    gffdata = pd.read_table(filepath, header=None,
+                            comment="#", low_memory=False)
     # filter
-    gffdata = gffdata[gffdata[2] != "cDNA_match"]
+    # gffdata = gffdata[gffdata[2] != "cDNA_match"]
 
     annotation = gffdata[8]
     genenamelist = get_genename_list(annotation)
     genenamedf = pd.Series(genenamelist)
     gffdata[9] = genenamedf
-    gffdata = gffdata[[0, 3, 4, 9]]
+    # gffdata = gffdata[[0, 3, 4, 9]]
     gffdata[0] = gffdata[0].astype(str)
     gffdata.rename(columns={0: "chromosome", 3: "gff_start",
                             4: "gff_end", 9: "gene"}, inplace=True)
-    #gffdata = gffdata[np.logical_not(gffdata['gene'].isna())]
+    # gffdata = gffdata[np.logical_not(gffdata['gene'].isna())]
 
     return gffdata
