@@ -48,8 +48,8 @@ if __name__ == "__main__":
 
     vcfdata = pd.read_table(sys.argv[1])
     outputdata = pd.DataFrame()
-    outputdata['CHROM'] = vcfdata['#CHROM']
-    outputdata['POS'] = vcfdata['POS']
+    outputdata['chromosome'] = vcfdata['#CHROM']
+    outputdata['position'] = vcfdata['POS']
 
     vcfdata = vcfdata[sample_list]
     sampledata = vcfdata[sample_list]
