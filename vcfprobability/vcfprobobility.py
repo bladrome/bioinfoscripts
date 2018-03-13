@@ -59,7 +59,7 @@ if __name__ == "__main__":
     majorallele, minorallele = get_probobility_list(sampledata)
     outputdata['one_ratio'] = majorallele
     outputdata['zero_ratio'] = minorallele
-    dropzero = np.logical_not(np.logical_and(outputdata.one_ratio == 1,
-                                             outputdata.zero_ratio == 0))
-    outputdata = outputdata[dropzero]
+    # dropzero = np.logical_not(np.logical_and(outputdata.one_ratio == 1,
+                                             # outputdata.zero_ratio == 0))
+    # outputdata = outputdata[dropzero]
     outputdata.to_csv(sys.argv[3], index=False)
