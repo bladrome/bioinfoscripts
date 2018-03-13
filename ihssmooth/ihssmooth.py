@@ -4,10 +4,13 @@ import numpy as np
 
 def ihssmooth(filepath, windows_size=50000, step_size=10000):
 
-    ihsdata = pd.read_table(filepath, header=None, nrows=3000)
+    ihsdata = pd.read_table(filepath, header=None)
     ihsdata.sort_values(by=[1])
 
     posi_max = ihsdata[1].max()
+    print(posi_max)
+    print(posi_max)
+    print(posi_max)
 
     index_start_list = list()
     ihssmooth_list = list()
@@ -52,10 +55,8 @@ if __name__ == "__main__":
 
     ihs = pd.DataFrame()
     chr_file_dir = dirname(sys.argv[1])
-    # print(chr_file_dir)
     for i in read_chromosome_list(sys.argv[1]):
         ihsfile = join(chr_file_dir, i)
-        # print(ihsfile)
-        ihs.append(ihssmooth(ihsfile))
-        print(ihs)
+        chrihs = ihssmooth(ihsfile)
+        ihs = ihs.append(chrihs)
     ihs.to_csv(sys.argv[2], index=False)
