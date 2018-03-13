@@ -20,7 +20,7 @@ def ihssmooth(filepath, windows_size=50000, step_size=10000):
         masksubset = np.logical_and(a, b)
         windows = ihsdata[masksubset]
         index_start_list.append(i)
-        ihssmooth_list.append(windows[5].sum() / len(windows))
+        ihssmooth_list.append(0 if len(windows) == 0 else windows[5].sum() / len(windows))
 
     ihssmooth = pd.DataFrame()
     ihssmooth['chromosome'] = [
