@@ -1,5 +1,5 @@
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 
 def ihssmooth(filepath, windows_size=50000, step_size=10000):
@@ -20,13 +20,13 @@ def ihssmooth(filepath, windows_size=50000, step_size=10000):
         masksubset = np.logical_and(a, b)
         windows = ihsdata[masksubset]
         index_start_list.append(i)
-        ihssmooth_list.append(0 if len(windows) == 0 else windows[5].sum() / len(windows))
+        ihssmooth_list.append(0 if len(windows) == 0 else
+                              windows[5].sum() / len(windows))
 
     ihssmooth = pd.DataFrame()
     ihssmooth['chromosome'] = [
-            ihsdata[0][0].split(':')[0]
-            for i in range(len(index_start_list))
-            ]
+        ihsdata[0][0].split(':')[0] for i in range(len(index_start_list))
+    ]
     ihssmooth['start'] = index_start_list
     ihssmooth['end'] = [i + windows_size for i in index_start_list]
     ihssmooth['ihs'] = ihssmooth_list
@@ -48,8 +48,7 @@ if __name__ == "__main__":
     from os.path import dirname
     from os.path import join
     if len(sys.argv) != 3:
-        print("Usage:{0} {1} {2}".format(sys.argv[0],
-                                         "sample_list",
+        print("Usage:{0} {1} {2}".format(sys.argv[0], "sample_list",
                                          "output.csv"))
         sys.exit(1)
 
