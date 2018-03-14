@@ -8,9 +8,6 @@ def ihssmooth(filepath, windows_size=50000, step_size=10000):
     ihsdata.sort_values(by=[1])
 
     posi_max = ihsdata[1].max()
-    print(posi_max)
-    print(posi_max)
-    print(posi_max)
 
     index_start_list = list()
     ihssmooth_list = list()
