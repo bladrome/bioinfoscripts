@@ -61,6 +61,8 @@ for i in range(len(chrlength)):
                 else:
                     distance.append(0)
 
+        if not distance:
+            distance = [0]
         randommin[i].append(np.min(np.array(distance)))
 
 for i in range(len(chrlength)):
