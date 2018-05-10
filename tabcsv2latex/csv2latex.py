@@ -2,12 +2,84 @@ import pandas as pd
 import os
 
 colorstrleft = "{\color{red}"
+bluecolorstrleft = "{\color{blue}"
+graycolorstrleft = "{\color{gray}"
+sgsepspace="\\vspace{0.5cm}"
 colorstrright = "}"
-sequencens_length = 30
+sequencens_length = 25
 
 pageheight=45
-pagewidth =10
+pagewidth = 12
 
+def print_table2(csvfile):
+
+    tmpfile = open(csvfile)
+    tmpfile.readline()
+    line = tmpfile.readline()
+    if line != '':
+        line = line.split()[1]
+        sequencens_length=len(line)
+    else:
+        sequencens_length = 25
+    tmpfile.close()
+
+    sequencensindent = 'c' * (sequencens_length)
+    sequencensindent = '@{}'.join(sequencensindent)
+    tabindent = list()
+    tabindent.append(sequencensindent)
+    tabindent.extend(['l', 'l', 'l', 'l', 'l', 'l'])
+    tabindent = ''.join(tabindent)
+
+    samplename = csvfile.split('_')[0]
+    header = namesdict[samplename] + '\\\\'
+    print("\\noindent \\par ", end='')
+
+    # print("SCVSDVSDFSDFASDF:")
+    # print(csv2latextab(csvfile))
+    if csv2latextab(csvfile):
+        print("\\textbf{")
+
+    print("\\textbf{")
+    print(header + " " + samplename)
+    print("\\\\")
+    print(csvfile.replace("_", "\_"))
+    # print(header)
+    print("}")
+    print("\\begin{tabular}{" + tabindent + "}")
+    print('\\\\\n'.join(csv2latextab(csvfile)))
+    print("\\end{tabular} ")
+
+    if csv2latextab(csvfile):
+        print("}")
+
+    print(sgsepspace)
+
+# def print_table(cscfile):
+    # samplename = cscfile.split('_')[0]
+    # header = samplename + "/" +  namesdict[samplename] + '\\\\'
+    # print("\\noindent \\par ", end='')
+    # print("\\textbf{")
+    # print(header)
+
+    # tmpfile = open(cscfile)
+    # tmpfile.readline()
+    # line = tmpfile.readline().split()[1]
+    # sequencens_length=len(line)
+    # tmpfile.close()
+
+    # sequencensindent = 'c' * (sequencens_length)
+    # sequencensindent = '@{}'.join(sequencensindent)
+    # tabindent = ['c']
+    # tabindent.append(sequencensindent)
+    # tabindent.extend(['l', 'l', 'l', 'l', 'l'])
+    # tabindent = ''.join(tabindent)
+
+    # print("\\begin{tabular}{" + tabindent + "}")
+    # # print('\\\\'.join(texitemlist))
+    # print('\\\\\n'.join(csv2latextab(cscfile)))
+    # print("\\end{tabular} ")
+    # print("}")
+    # print("\\vspace{0.2cm}")
 
 def color_at_position(sequencens, poslist):
     '''
@@ -27,10 +99,20 @@ def color_at_position(sequencens, poslist):
     # return sequencens_split
     '''
 
+    sequencens = [i for i in sequencens]
+
+    sequencens[0] = graycolorstrleft + sequencens[0] + colorstrright
+    sequencens[1] = graycolorstrleft + sequencens[1] + colorstrright
+
+    sequencens[-1] = bluecolorstrleft + sequencens[-1] + colorstrright
+    sequencens[-2] = bluecolorstrleft + sequencens[-2] + colorstrright
+    sequencens[-3] = bluecolorstrleft + sequencens[-3] + colorstrright
+
     if poslist:
-        sequencens = [i for i in sequencens]
         for i in poslist:
             sequencens[i] = colorstrleft + sequencens[i] + colorstrright
+    
+
 
     sequencens = '&'.join(sequencens)
 
@@ -42,7 +124,9 @@ def csv2latextab(filename):
         filename, sep='\t')
 
     for item in sg1.itertuples():
+        # print(item)
         sequencens = item[2]
+        sequencens_length=len(sequencens)
 
         posstr = item[7]
         posstr = posstr.strip('[]')
@@ -67,12 +151,9 @@ with open("./tt.samples.ID") as f:
         i = i.strip().split()
         namesdict[i[0]] = i[1]
 
+
 sequencensindent = 'c' * (sequencens_length)
 sequencensindent = '@{}'.join(sequencensindent)
-# print(sequencensindent)
-# tabindent = ['c'] * (len(sg1.columns) - 1)
-# tabindent.insert(1, sequencensindent)
-# tabindent = ''.join(tabindent)
 tabindent = ['c']
 tabindent.append(sequencensindent)
 tabindent.extend(['l', 'l', 'l', 'l', 'l'])
@@ -94,23 +175,16 @@ print("\
 \\textheight " + str(pageheight-1)  + " true in\n\
 \\setlength\paperheight {" + str(pageheight) + "in}\n\
 \\setlength\paperwidth {" + str(pagewidth) + "in}\n\
-\\setmainfont{Arial}\n\
+\\setmainfont{Courier New}\n\
 \\author{blade\\_jack@163.com}\n\
 \\begin{document}\n\
         ")
 
 
 for cscfile in os.listdir("."):
-    if cscfile.endswith("csv"):
-        samplename = cscfile.split('.')[0]
-        header = samplename + "/" +  namesdict[samplename] + '\\\\'
-        print("\\noindent \\par ", end='')
-        print(header)
-        print("\\begin{tabular}{" + tabindent + "}")
-        # print('\\\\'.join(texitemlist))
-        print('\\\\'.join(csv2latextab(cscfile)))
-        print("\\end{tabular} ")
-        print("\\vspace{0.2cm}")
+    if cscfile.endswith("_txt.csv"):
+        print_table2(cscfile)
+
 
 
 print("\\end{document} ")
