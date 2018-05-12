@@ -9,7 +9,7 @@ colorstrright = "}"
 sequencens_length = 25
 
 pageheight=45
-pagewidth = 12
+pagewidth = 35
 
 def print_table2(csvfile):
 
@@ -27,7 +27,7 @@ def print_table2(csvfile):
     sequencensindent = '@{}'.join(sequencensindent)
     tabindent = list()
     tabindent.append(sequencensindent)
-    tabindent.extend(['l', 'l', 'l', 'l', 'l', 'l'])
+    tabindent.extend(['@{}c', 'l', 'l', 'l', 'l', 'l'])
     tabindent = ''.join(tabindent)
 
     samplename = csvfile.split('_')[0]

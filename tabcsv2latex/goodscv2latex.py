@@ -15,7 +15,7 @@ colorstrright = "}"
 sequencens_length = 25
 
 pageheight= 80
-pagewidth = 30
+pagewidth = 13
 
 sgsepspace="\\vspace{0.5cm}"
 
