@@ -1,5 +1,9 @@
 # csv 2 latex tabular
 
+
+[samtools](https://github.com/samtools/samtools)
+[htslib](https://github.com/samtools/htslib)
+
 ## samtools
 change
 ```
