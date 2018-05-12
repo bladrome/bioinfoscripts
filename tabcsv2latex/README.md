@@ -3,7 +3,7 @@
 ## samtools
 change
 ```
-$ git diff
+samples$ git diff
 diff --git a/bam_tview.c b/bam_tview.c
 index 206ac8b..6503b80 100644
 --- a/bam_tview.c
