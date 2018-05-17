@@ -10,6 +10,7 @@ if len(sys.argv) != 4:
 
 # reference = 'TGGAGCAGAGCAGCTTCCAGTGG'
 reference = sys.argv[1]
+reference = reference.upper()
 
 alignmatrix = pd.read_table(sys.argv[2], skiprows=2, header=None)
 # alignmatrix = pd.read_table("./AWGBGAA05774-2-38.bam.sgRNA1.tview.bam.txt", skiprows=2, header=None)
@@ -21,7 +22,7 @@ for i in alignmatrix.itertuples():
     align = str(i[1])[0:len(reference)]
     align = align.replace(' ', '>')
     align = align.replace('<', '>')
-    # align = align.replace('-', '>')
+    align = align.replace('-', '>')
     alignlist.append(align)
 
 # Replace > with ref
