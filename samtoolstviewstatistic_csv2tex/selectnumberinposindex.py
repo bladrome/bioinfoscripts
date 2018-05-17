@@ -2,14 +2,14 @@ import sys
 
 import pandas as pd
 
-if len(sys.argv) != 3:
-    print("Usage: {0} {1} {2}".format(sys.argv[0], "samplename", "pos"))
-    sys.exit(1)
+# if len(sys.argv) != 2:
+    # print("Usage: {0} {1} {2}".format(sys.argv[0], "samplename", "pos"))
+    # sys.exit(1)
 
-samplename = sys.argv[1]
-pos = int(sys.argv[2])
+# samplename = sys.argv[1]
+# pos = int(sys.argv[2])
 # pos = 6
-# samplename = "./18D124_S2.bam.txt.cs"
+samplename = "./18D124_S2.bam.txt.cs"
 data = pd.read_table(samplename, header=None)
 positionlist = data[6]
 chooseposlist = list()
