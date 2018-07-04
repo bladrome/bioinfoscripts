@@ -4,16 +4,16 @@ import pandas as pd
 
 posfile = "./postest.txt"
 outputfile = "output.csv"
-intputfile = "././GCF_001704415.1_ARS1_genomic_head500.gff"
+intputfile = "./GCF_001704415.1_ARS1_genomic_head500.gff"
 
-if len(sys.argv) != 4:
-    print("Usage: {0} {1} {2} {3}".format(sys.argv[0], "inputGFFfile",
-                                          "posfile", "outputfile.csv"))
-    sys.exit(1)
+# if len(sys.argv) != 4:
+    # print("Usage: {0} {1} {2} {3}".format(sys.argv[0], "inputGFFfile",
+                                          # "posfile", "outputfile.csv"))
+    # sys.exit(1)
 
-intputfile = sys.argv[1]
-posfile = sys.argv[2]
-outputfile = sys.argv[3]
+# intputfile = sys.argv[1]
+# posfile = sys.argv[2]
+# outputfile = sys.argv[3]
 
 chromosomemap = {
     "NC_030808.1": "1",
@@ -85,8 +85,15 @@ pos = read_pos(posfile)
 
 pos.chromosome = pos.chromosome.astype('str')
 data.chromosome = data.chromosome.astype('str')
+# print(pos.chromosome)
 
-c = data.merge(pos, on=['chromosome'])
+c = pd.DataFrame()
+for current_chr in chromosomemap.keys():
+    a = data[ data.chromosome == current_chr ]
+    b = pos[ pos.chromosome == current_chr ]
+    cc = a.merge(b, on=['chromosome'])
+    c = c.append(cc, sort=True)
+
 
 c = c[c.start <= c.pos]
 c = c[c.pos <= c.end]
