@@ -2,9 +2,10 @@ import sys
 
 import pandas as pd
 
+n_split = 200
 posfile = "./postest.txt"
 outputfile = "output.csv"
-intputfile = "./GCF_001704415.1_ARS1_genomic_head500.gff"
+intputfile = "././GCF_001704415.1_ARS1_genomic_head500.gff"
 
 # if len(sys.argv) != 4:
     # print("Usage: {0} {1} {2} {3}".format(sys.argv[0], "inputGFFfile",
@@ -85,34 +86,14 @@ pos = read_pos(posfile)
 
 pos.chromosome = pos.chromosome.astype('str')
 data.chromosome = data.chromosome.astype('str')
-# print(pos.chromosome)
 
 c = pd.DataFrame()
-dfia = list()
-dfib = list()
-for current_chr in chromosomemap.keys():
-    a = data[ data.chromosome == current_chr ]
-    b = pos[ pos.chromosome == current_chr ]
-    for ia in a.itertuples(index=False):
-        for ib in b.itertuples(index=False):
-            if ia.start <= ib.pos <= ia.end and ia.genename != '':
-                dfia.append(list(ia))
-                dfib.append(list(ib))
-            # cc = cc[i.start <= cc.pos]
-            # cc = cc[cc.pos <= cc.end]
-            # cc = cc[cc.genename != '']
-            # c = c.append(cc, sort=True)
-
-dfia = pd.DataFrame(dfia)
-dfib = pd.DataFrame(dfib)
-
-dfia.columns = data.columns
-dfib.columns = pos.columns
-c = pd.concat((dfia, dfib), axis=1)
-# cc = pd.DataFrame(ia).merge(pd.DataFrame(ib), on=['chromosome'])
-# c = c[c.start <= c.pos]
-# c = c[c.pos <= c.end]
-# c = c[c.genename != '']
+for a in pd.np.array_split(data, n_split):
+    cc = a.merge(pos, on=['chromosome'])
+    cc = cc[cc.start <= cc.pos]
+    cc = cc[cc.pos <= cc.end]
+    cc = cc[cc.genename != '']
+    c = c.append(cc, sort=True)
 
 output = c[['chrnum', 'region', 'genename', 'start', 'end', 'pos']]
 output.to_csv(outputfile, index=None)
