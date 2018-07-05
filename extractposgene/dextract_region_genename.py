@@ -88,16 +88,31 @@ data.chromosome = data.chromosome.astype('str')
 # print(pos.chromosome)
 
 c = pd.DataFrame()
+dfia = list()
+dfib = list()
 for current_chr in chromosomemap.keys():
     a = data[ data.chromosome == current_chr ]
     b = pos[ pos.chromosome == current_chr ]
-    cc = a.merge(b, on=['chromosome'])
-    c = c.append(cc, sort=True)
+    for ia in a.itertuples(index=False):
+        for ib in b.itertuples(index=False):
+            if ia.start <= ib.pos <= ia.end and ia.genename != '':
+                dfia.append(list(ia))
+                dfib.append(list(ib))
+            # cc = cc[i.start <= cc.pos]
+            # cc = cc[cc.pos <= cc.end]
+            # cc = cc[cc.genename != '']
+            # c = c.append(cc, sort=True)
 
+dfia = pd.DataFrame(dfia)
+dfib = pd.DataFrame(dfib)
 
-c = c[c.start <= c.pos]
-c = c[c.pos <= c.end]
-c = c[c.genename != '']
+dfia.columns = data.columns
+dfib.columns = pos.columns
+c = pd.concat((dfia, dfib), axis=1)
+# cc = pd.DataFrame(ia).merge(pd.DataFrame(ib), on=['chromosome'])
+# c = c[c.start <= c.pos]
+# c = c[c.pos <= c.end]
+# c = c[c.genename != '']
 
 output = c[['chrnum', 'region', 'genename', 'start', 'end', 'pos']]
 output.to_csv(outputfile, index=None)
