@@ -12,12 +12,12 @@ def get_fastafile(filepath):
     # multilist = list()
     lengthlist = list()
     for item in nrfileabstract:
-        item = item.split()
-        namelist.append(item[0][1:])
+        item = item.strip()[1:]
+        namelist.append(item)
         # descriptionlist.append(item[1])
         # flaglist.append(item[2])
         # multilist.append(item[3])
-        lengthlist.append(item[-1].split('=')[1])
+        lengthlist.append(item.split('|')[5])
     nrfastadf = pd.DataFrame()
     nrfastadf['name'] = namelist
     nrfastadf['length'] = lengthlist
