@@ -27,8 +27,11 @@ def get_fastafile(filepath):
 
 
 def get_blastfile(filepath):
-    blastfile = pd.read_csv(filepath, sep='\t', header=None, usecols=range(10))
-    blastfidf = blastfile.groupby([7])[3].sum()
+    blastabstract = popen("cut -d '\t' -f 4,8 " + filepath)
+    blastfidf = pd.read_csv(blastabstract, sep='\t', header=None)
+    blastfidf.columns = ['length', 'name']
+    blastfidf.length = blastfidf.length.astype(int)
+    blastfidf = blastfidf.groupby(['name'])['length'].sum()
     blastfidf = pd.concat(
         [pd.DataFrame(blastfidf.index),
          pd.DataFrame(blastfidf.values)],
