@@ -121,7 +121,7 @@ def color_at_position(sequencens, poslist):
 def csv2latextab(filename):
     texitemlist = list()
     sg1 = pd.read_csv(
-        filename, sep='\t')
+        filename, sep='\t', header=None)
 
     for item in sg1.itertuples():
         # print(item)
