@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SAMTOOLS=./samtools
-PYTHON=python
+PYTHON="python -W ignore"
 COMPOSITIONFILTERPY=./tview_composition_filter.py
 
 #referencefa=/media/bladrome/drome/Biodata/ASMreference/ASM.fa
