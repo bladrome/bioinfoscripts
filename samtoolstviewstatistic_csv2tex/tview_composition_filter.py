@@ -23,6 +23,7 @@ for i in alignmatrix.itertuples():
     align = align.replace(' ', '>')
     align = align.replace('<', '>')
     align = align.replace('-', '>')
+    align = align.replace('.', '>')
     alignlist.append(align)
 
 # Replace > with ref
