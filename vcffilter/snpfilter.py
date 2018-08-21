@@ -1,7 +1,5 @@
 #!/usr/bin/env python
-
-snpfile = "./DSW61968-V.vcf"
-snplibrary = "./snplibrary.vcf"
+import argparse
 
 
 def get_snpset(snplibrary):
@@ -18,6 +16,15 @@ def get_snpset(snplibrary):
     return snpset
 
 
+parser = argparse.ArgumentParser()
+parser.add_argument("snpfile")
+parser.add_argument("snplibrary")
+args = parser.parse_args()
+
+# snpfile = "./DSW61968-V.vcf"
+# snplibrary = "./snplibrary.vcf"
+snpfile = args.snpfile
+snplibrary = args.snplibrary
 
 snpset = get_snpset(snplibrary)
 with open(snpfile) as f:
