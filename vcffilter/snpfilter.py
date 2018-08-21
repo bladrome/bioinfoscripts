@@ -1,17 +1,29 @@
 #!/usr/bin/env python
 import argparse
+import gzip
 
 
 def get_snpset(snplibrary):
     snpset = set()
-    with open(snplibrary) as f:
-        for line in f:
-            if line.startswith("#"):
-                continue;
-            else:
-                line = line.split()
-                pos = '\t'.join([line[0], line[1]])
-                snpset.add(pos)
+    if snplibrary.endswith("gz"):
+        with gzip.open(snplibrary, 'rt') as f:
+            for line in f:
+                if line.startswith("#"):
+                    continue;
+                else:
+                    line = line.split()
+                    pos = '\t'.join([line[0], line[1]])
+                    snpset.add(pos)
+
+    else:
+        with open(snplibrary) as f:
+            for line in f:
+                if line.startswith("#"):
+                    continue;
+                else:
+                    line = line.split()
+                    pos = '\t'.join([line[0], line[1]])
+                    snpset.add(pos)
 
     return snpset
 
