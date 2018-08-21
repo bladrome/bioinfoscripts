@@ -6,24 +6,17 @@ import gzip
 def get_snpset(snplibrary):
     snpset = set()
     if snplibrary.endswith("gz"):
-        with gzip.open(snplibrary, 'rt') as f:
-            for line in f:
-                if line.startswith("#"):
-                    continue;
-                else:
-                    line = line.split()
-                    pos = '\t'.join([line[0], line[1]])
-                    snpset.add(pos)
-
+        f = gzip.open(snplibrary, 'rt')
     else:
-        with open(snplibrary) as f:
-            for line in f:
-                if line.startswith("#"):
-                    continue;
-                else:
-                    line = line.split()
-                    pos = '\t'.join([line[0], line[1]])
-                    snpset.add(pos)
+        f = open(snplibrary)
+    for line in f:
+        if line.startswith("#"):
+            continue;
+        else:
+            line = line.split()
+            pos = '\t'.join([line[0], line[1]])
+            snpset.add(pos)
+    f.close()
 
     return snpset
 
@@ -39,11 +32,16 @@ snpfile = args.snpfile
 snplibrary = args.snplibrary
 
 snpset = get_snpset(snplibrary)
-with open(snpfile) as f:
-    for line in f:
-        field = line.split()
-        pos = '\t'.join([field[0], field[1]])
-        if pos in snpset:
-            continue
-        else:
-            print(line.strip())
+
+if snpfile.endswith("gz"):
+    f = gzip.open(snpfile, 'rt')
+else:
+    f = open(snpfile)
+for line in f:
+    field = line.split()
+    pos = '\t'.join([field[0], field[1]])
+    if pos in snpset:
+        continue
+    else:
+        print(line.strip())
+f.close
