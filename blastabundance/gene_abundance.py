@@ -63,11 +63,18 @@ def get_gene_abundance(nrfastafilepath, blastfilepath):
     gene_abundance = sample_reads_num / gene_length
     relative_gene_abundance = gene_abundance / gene_abundance.sum()
 
+    # print(sample_reads_num)
+    # reads_num
+    readsnumdf = pd.DataFrame()
+    readsnumdf['name'] = blastcommondf.name
+    readsnumdf['readsnumber'] = sample_reads_num
+
+    # ( reads_num / gene_length )_relative
     outputdf = pd.DataFrame()
     outputdf['name'] = blastcommondf.name
     outputdf['aboundance'] = relative_gene_abundance
 
-    return outputdf
+    return outputdf, readsnumdf
 
 if __name__ == "__main__":
     import argparse
@@ -75,17 +82,18 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("nrfastafile")
     parser.add_argument("blastfile")
-    parser.add_argument("-o", "--output", dest="gene_abundance", nargs='?', type=argparse.FileType('w'), default=sys.stdout)
+    parser.add_argument("gene_abundance_prefix", type=str)
     args = parser.parse_args()
 
     # nrfastafilepath = "./all_nrtest_1000000.fa"
     # blastfilepath = "./11-hui_HFGMYALXX_L4_clean.blast"
     nrfastafilepath = args.nrfastafile
     blastfilepath = args.blastfile
-    outputfile = args.gene_abundance
+    outputfile = args.gene_abundance_prefix
 
-    Matabundance = get_gene_abundance(nrfastafilepath, blastfilepath)
-    Matabundance.to_csv(outputfile, index=None, sep='\t')
+    Matabundance, readsnumdf = get_gene_abundance(nrfastafilepath, blastfilepath)
+    Matabundance.to_csv(outputfile + ".csv", index=None, sep='\t')
+    readsnumdf.to_csv(outputfile + "_readsnum.csv", index=None, sep='\t')
 
 # gb
 # a = pd.read_csv("./gb", header=None)
