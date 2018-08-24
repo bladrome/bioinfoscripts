@@ -35,16 +35,6 @@ def get_lineage_rank_name(taxid):
     revrank = {i[0]:i[1] for i in zip(ranknames, ["Unknown"] * 7)}
     revrank.update({v: k for k, v in rank.items()})
 
-    # return 
-    # ("Unknown" if "Unknown" == revrank.get(ranknames[0], "Unknown") else ncbi.translate_to_names([ revrank.get(ranknames[0]) ])[0] ) + "_" + ranknames[0],
-    # ("Unknown" if "Unknown" == revrank.get(ranknames[1], "Unknown") else ncbi.translate_to_names([ revrank.get(ranknames[1]) ])[0] ) + "_" + ranknames[1], 
-    # ("Unknown" if "Unknown" == revrank.get(ranknames[2], "Unknown") else ncbi.translate_to_names([ revrank.get(ranknames[2]) ])[0] ) + "_" + ranknames[2], 
-    # ("Unknown" if "Unknown" == revrank.get(ranknames[3], "Unknown") else ncbi.translate_to_names([ revrank.get(ranknames[3]) ])[0] ) + "_" + ranknames[3], 
-    # ("Unknown" if "Unknown" == revrank.get(ranknames[4], "Unknown") else ncbi.translate_to_names([ revrank.get(ranknames[4]) ])[0] ) + "_" + ranknames[4], 
-    # ("Unknown" if "Unknown" == revrank.get(ranknames[5], "Unknown") else ncbi.translate_to_names([ revrank.get(ranknames[5]) ])[0] ) + "_" + ranknames[5], 
-    # ("Unknown" if "Unknown" == revrank.get(ranknames[6], "Unknown") else ncbi.translate_to_names([ revrank.get(ranknames[6]) ])[0] ) + "_" + ranknames[6] 
-
-
     return \
     ("Unknown" if "Unknown" == revrank[ranknames[0]] else ncbi.translate_to_names([ revrank.get(ranknames[0]) ])[0] ) + " " + ranknames[0], \
     ("Unknown" if "Unknown" == revrank[ranknames[1]] else ncbi.translate_to_names([ revrank.get(ranknames[1]) ])[0] ) + " " + ranknames[1], \
@@ -81,24 +71,23 @@ def annotateGI(blastfile):
 
 
 def annotateTAXID(blastfile):
+    ## genename, evalue, qhsc, taxid
     pcmd = "cat " + blastfile + " | cut -d '\t' -f 1,12,26,27"
     with popen(pcmd) as f:
         for line in f:
             line = line.split()
             # Without staxid
             if len(line) == 3:
+                print(",".join(line), file="Unknowntaxid.csv")
                 continue
             gene = line[0]
             evalue = line[1]
             taxid = line[3].split(";")[0]
-            # print(taxid)
             for j in id2naconn.execute(
                     "SELECT \"0\", \"2\" FROM TAXID2NAMES WHERE \"0\"={0}".
                     format(taxid)):
                 taxid = j[0]
                 name = j[1]
-                # rank = ncbi.get_rank([taxid])[taxid]
-                # print(",".join((gene, str(evalue), str(taxid), name, rank)))
                 print(",".join((gene, str(evalue), str(taxid), name,
                                 *get_lineage_rank_name(taxid))))
 
