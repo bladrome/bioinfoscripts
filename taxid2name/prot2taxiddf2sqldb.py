@@ -1,8 +1,8 @@
 import pandas as pd
 import sqlite3
+import argparse
 
 
-prot2taxifile = "./prot.accession2taxid10000"
 def build_protacc2taxid(prot2taxidfile):
     conn = sqlite3.connect("protaccession2taxid.db")
     prot2taxiddf = pd.read_table(prot2taxidfile, iterator=True)
@@ -15,7 +15,6 @@ def build_protacc2taxid(prot2taxidfile):
         except StopIteration:
             break
 
-taxid2namefile = "./names.dmp"
 def build_taxid2name(taxid2namefile):
     conn = sqlite3.connect("taxid2name.db")
     # prot2taxiddf = pd.read_table(taxid2namefile, iterator=True)
@@ -37,4 +36,18 @@ def build_taxid2name(taxid2namefile):
     # print(i)
 
 
+# prot2taxifile = "./prot.accession2taxid10000"
+# taxid2namefile = "./names.dmp"
+parser = argparse.ArgumentParser()
+parser.add_argument("protaccession2taxid")
+parser.add_argument("namesdmp")
+args = parser.parse_args()
+
+# prot2taxifile = "./prot.accession2taxid10000"
+# taxid2namefile = "./names.dmp"
+
+prot2taxidfile = args.protaccession2taxid
+taxid2namefile = args.namesdmp
+
 build_taxid2name(taxid2namefile)
+build_protacc2taxid(prot2taxidfile):
