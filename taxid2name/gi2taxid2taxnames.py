@@ -32,7 +32,8 @@ def get_lineage_rank_name(taxid):
     ]
     lineage = ncbi.get_lineage(taxid)
     rank = ncbi.get_rank(lineage)
-    revrank = {v: k for k, v in rank.items()}
+    revrank = {i[0]:i[1] for i in zip(ranknames, ["Unknown"] * 7)}
+    revrank.update({v: k for k, v in rank.items()})
 
     # return 
     # ("Unknown" if "Unknown" == revrank.get(ranknames[0], "Unknown") else ncbi.translate_to_names([ revrank.get(ranknames[0]) ])[0] ) + "_" + ranknames[0],
@@ -45,13 +46,13 @@ def get_lineage_rank_name(taxid):
 
 
     return \
-    ("Unknown" if "Unknown" == revrank.get(ranknames[0], "Unknown") else ncbi.translate_to_names([ revrank.get(ranknames[0]) ])[0] ) + "_" + ranknames[0], \
-    ("Unknown" if "Unknown" == revrank.get(ranknames[1], "Unknown") else ncbi.translate_to_names([ revrank.get(ranknames[1]) ])[0] ) + "_" + ranknames[1], \
-    ("Unknown" if "Unknown" == revrank.get(ranknames[2], "Unknown") else ncbi.translate_to_names([ revrank.get(ranknames[2]) ])[0] ) + "_" + ranknames[2], \
-    ("Unknown" if "Unknown" == revrank.get(ranknames[3], "Unknown") else ncbi.translate_to_names([ revrank.get(ranknames[3]) ])[0] ) + "_" + ranknames[3], \
-    ("Unknown" if "Unknown" == revrank.get(ranknames[4], "Unknown") else ncbi.translate_to_names([ revrank.get(ranknames[4]) ])[0] ) + "_" + ranknames[4], \
-    ("Unknown" if "Unknown" == revrank.get(ranknames[5], "Unknown") else ncbi.translate_to_names([ revrank.get(ranknames[5]) ])[0] ) + "_" + ranknames[5], \
-    ("Unknown" if "Unknown" == revrank.get(ranknames[6], "Unknown") else ncbi.translate_to_names([ revrank.get(ranknames[6]) ])[0] ) + "_" + ranknames[6] 
+    ("Unknown" if "Unknown" == revrank[ranknames[0]] else ncbi.translate_to_names([ revrank.get(ranknames[0]) ])[0] ) + " " + ranknames[0], \
+    ("Unknown" if "Unknown" == revrank[ranknames[1]] else ncbi.translate_to_names([ revrank.get(ranknames[1]) ])[0] ) + " " + ranknames[1], \
+    ("Unknown" if "Unknown" == revrank[ranknames[2]] else ncbi.translate_to_names([ revrank.get(ranknames[2]) ])[0] ) + " " + ranknames[2], \
+    ("Unknown" if "Unknown" == revrank[ranknames[3]] else ncbi.translate_to_names([ revrank.get(ranknames[3]) ])[0] ) + " " + ranknames[3], \
+    ("Unknown" if "Unknown" == revrank[ranknames[4]] else ncbi.translate_to_names([ revrank.get(ranknames[4]) ])[0] ) + " " + ranknames[4], \
+    ("Unknown" if "Unknown" == revrank[ranknames[5]] else ncbi.translate_to_names([ revrank.get(ranknames[5]) ])[0] ) + " " + ranknames[5], \
+    ("Unknown" if "Unknown" == revrank[ranknames[6]] else ncbi.translate_to_names([ revrank.get(ranknames[6]) ])[0] ) + " " + ranknames[6] 
 
 
 
