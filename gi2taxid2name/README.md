@@ -8,8 +8,8 @@
 
 ## Database
 ```
-$ wget ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdmp.zip
-$ unzip taxdmp.zip
+$ wget ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdmp.tar.gz
+$ unzip taxdmp.tar.gz
 $ wget ftp://ftp.ncbi.nih.gov/pub/taxonomy/accession2taxid/prot.accession2taxid.gz
 $ gunzip prot.accession2taxid.gz
 ```
