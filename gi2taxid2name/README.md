@@ -1,10 +1,12 @@
-# taxid to lineage rank name
+# Taxid to lineage rank name
 
 
-## dependencies
+## Dependencies
 - ete3
+- sqlite3
+- pandas
 
-## database
+## Database
 ```
 $ wget ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdmp.zip
 $ unzip taxdmp.zip
@@ -13,14 +15,71 @@ $ gunzip prot.accession2taxid.gz
 ```
 
 
-## build sqldb
+## Build sqldb
 ```python
 $ python prot2taxiddf2sqldb.py prot.accession2taxid names.dmp
 $ pip install ete3
-$ python
+$ python -q
 >>> from ete3 import NCBITaxa
->>> 
->>> ncbi = NCBITaxa?
 >>> ncbi = NCBITaxa("taxdump_file=taxdmp.zip")
->>> exit 
+>>> # waiting...
+>>> exit()
+```
+
+## Usage
+
+### gi2taxid2taxnames.py
+```python
+def get_taxid(gi):
+    ...
+
+def get_lineage_rank_name(taxid):
+    ...
+
+def get_name_from_taxid(taxid):
+    ...
+
+def annotateGI(blastfile):
+    ... 
+
+def annotateTAXID(blastfile):
+    ...
+```
+
+### rewirte your annotateGI or annotateTAXID
+
+``` python
+
+def annotateGI(blastfile):
+    pcmd = "cat " + blastfile + " | cut -d '\t' -f 1-3"
+    with popen(pcmd) as f:
+        for line in f:
+            line = line.split()
+            gene = line[0]
+            gi = line[2].split("|")[1]
+            taxid = get_taxid(gi)
+            name = get_name_from_taxid(taxid)
+            rank = ncbi.get_rank([taxid])[taxid]
+            print(",".join((gene, str(gi), str(taxid), name, rank)))
+
+
+def annotateTAXID(blastfile):
+    # genename, evalue, qhsc, taxid
+    pcmd = "cat " + blastfile + " | cut -d '\t' -f 1,12,26,27"
+    with popen(pcmd) as f, open("Unknowntaxid.csv", 'w') as ukf:
+        for line in f:
+            line = line.split()
+            # Without staxid
+            if len(line) == 3:
+                print(",".join(line), file=ukf)
+                continue
+            gene = line[0]
+            evalue = line[1]
+            taxid = line[3].split(";")[0]
+            name = get_name_from_taxid(taxid)
+            print(",".join((gene, str(evalue), str(taxid), name,
+                            *get_lineage_rank_name(taxid))))
+
+
+#annotateTAXID(blastfile)
 ```
