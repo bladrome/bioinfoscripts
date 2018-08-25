@@ -23,6 +23,21 @@ $ python -q
 >>> from ete3 import NCBITaxa
 >>> ncbi = NCBITaxa("taxdump_file=taxdmp.zip")
 >>> # waiting...
+Loading node names...
+1818050 names loaded.
+202404 synonyms loaded.
+Loading nodes...
+1818050 nodes loaded.
+Linking nodes...
+Tree is loaded.
+Updating database: $HOME/.etetoolkit/taxa.sqlite ...
+ 1818000 generating entries...
+Uploading to $HOME/.etetoolkit/taxa.sqlite
+
+Inserting synonyms:      200000
+Inserting taxid merges:  50000
+Inserting taxids:       1815000
+
 >>> exit()
 ```
 

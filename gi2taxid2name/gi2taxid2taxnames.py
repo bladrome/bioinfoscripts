@@ -93,4 +93,4 @@ def annotateTAXID(blastfile):
                             *get_lineage_rank_name(taxid))))
 
 
-annotateTAXID(blastfile)
+#annotateTAXID(blastfile)
