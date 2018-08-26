@@ -1,6 +1,6 @@
 import pandas as pd
 
-def blastheader():
+def blastheader(usecols):
     '''
     qseqid means Query Seq - id
     qlen means Query sequence length
@@ -35,16 +35,17 @@ def blastheader():
     positive gapopen gaps ppos qframe stitle salltitles qcovhsp 
 
     '''
-    header =[ 
+    headernames =[ 
     "qseqid", "qlen","sseqid", "sallseqid", "len", "start", "end", "start", "end", "seq", 
     "sseq", "evalue", "bitscore", "score", "length", "pident", "nident", "mismatch", 
     "positive", "gapopen", "aps", "ppos", " qframe", "stitle", "salltitles", "qcovhsp"]
 
+    header = [headernames[i] for i in usecols]
     return header
 
 
-def blastfilter_evalue(data):
-    header = blastheader()
+def blastfilter_evalue(data, usecols):
+    header = blastheader(usecols)
     data.columns = header
     evaluegrounpmin = data.groupby(['qseqid'])['evalue'].min()
     evaluegrounpmin *= 10
@@ -65,6 +66,7 @@ if __name__ == "__main__":
     parser.add_argument('filtedfile', type=str)
     args = parser.parse_args()
 
-    data = pd.read_table(args.blastfile, header=None)
-    filteddata = blastfilter_evalue(data)
+    usecols = [0, 1, 2, 11, 12,13, 4, 15, 24, 25]
+    data = pd.read_table(args.blastfile, header=None, usecols=usecols)
+    filteddata = blastfilter_evalue(data, usecols)
     filteddata.to_csv(args.filtedfile, sep='\t', index=None)
