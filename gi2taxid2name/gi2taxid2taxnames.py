@@ -93,4 +93,6 @@ def annotateTAXID(blastfile):
                             *get_lineage_rank_name(taxid))))
 
 
+for i in gilist:
+    print(get_lineage_rank_name(get_taxid(i)))
 #annotateTAXID(blastfile)
