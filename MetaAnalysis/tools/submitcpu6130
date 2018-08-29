@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -x
+# $1 bash script
+# $2 # of cores
+# $3 Mem
+jsub -R "rusage[res=1]span[hosts=1]" -e $1.stderr -o $1.stdout -J $1 -n $2 -M $3 -q cpu6130  bash $1
