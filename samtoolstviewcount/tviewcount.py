@@ -7,9 +7,11 @@ seqlength = 23
 parser = argparse.ArgumentParser()
 parser.add_argument("tviewfile")
 parser.add_argument("seqlength", type=int)
+# parser.add_argument("refseq")
 args = parser.parse_args()
 tviewfile = args.tviewfile
 seqlength = args.seqlength
+# refseq = args.refseq
 
 
 def complementaryseq(refseq, seq):
@@ -23,33 +25,53 @@ def complementaryseq(refseq, seq):
     return retseq
 
 
+def desnp(snpseqfeatures, refseq, seq):
+    retseq = seq
+    for snp in snpseqfeatures:
+        i, base = snp
+        retseq = retseq[0:i] + refseq[i] + retseq[i+1:]
+    return retseq
+
+
 count = 0
 indelcount = 0
 wtcount = 0
 otherscount = 0
+completecount = 0
+uncompletecount = 0
 
 with open(tviewfile) as f:
     # Position
     f.readline()
     # refseq or NNN
-    refseq = f.readline()[0:seqlength]
+    refseq = f.readline()[:seqlength]
+    refseq = refseq.upper()
     # ...
-    f.readline()
+    snpseq = f.readline()[:seqlength]
+    snpseqfeatures = [ (i, base) for i,base in enumerate(snpseq) if base != '.' ]
     for line in f:
         seq = line[:seqlength]
         if seq:
             count += 1
-            seq = complementaryseq(refseq, seq)
-            if '*' in seq:
-                indelcount += 1
-            elif seq == refseq:
-                wtcount += 1
-            else:
-                otherscount += 1
-            # print(seq)
+            if ' ' in seq:
+                uncompletecount += 1
+            else: 
+                completecount += 1
+                seq = seq.upper()
+                # seq = complementaryseq(refseq, seq)
+                seq = desnp(snpseqfeatures, refseq, seq)
+                if '*' in seq:
+                    indelcount += 1
+                elif seq == refseq:
+                    wtcount += 1
+                else:
+                    otherscount += 1
+                # print(seq)
 
-    print("COV:\t{0}\t{1}".format(tviewfile, count))
-    print("INDEL:\t{0}\t{1}".format(indelcount, indelcount / count * 100))
-    print("WT:\t{0}\t{1}".format(wtcount, wtcount / count * 100))
-    print("OTHERS:\t{0}\t{1}".format(otherscount, otherscount / count * 100))
+    print("COV:\t{0}\t{1}".format(count, count / count * 100))
+    print("COMPLETE:\t{0}\t{1}".format(completecount, completecount / count * 100))
+    print("UNCOMPLETE:\t{0}\t{1}".format(uncompletecount, uncompletecount / count * 100))
+    print("INDEL:\t{0}\t{1}\t{2}".format(indelcount, indelcount / count * 100, indelcount / completecount))
+    print("WT:\t{0}\t{1}\t{2}".format(wtcount, wtcount / count * 100, wtcount / completecount))
+    print("OTHERS:\t{0}\t{1}\t{2}".format(otherscount, otherscount / count * 100, otherscount / completecount))
 
