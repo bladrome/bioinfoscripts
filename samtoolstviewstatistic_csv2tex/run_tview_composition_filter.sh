@@ -22,8 +22,44 @@ sam_tview_to_txt(){
     referencefa=$3
     output=$4
 
+    #${SAMTOOLS} tview -d T -p ${pos} ${bamfile} ${referencefa} > ${output}
+
     echo "${SAMTOOLS} tview -d T -p ${pos} ${bamfile} ${referencefa} > ${output}"
-    ${SAMTOOLS} tview -d T -p ${pos} ${bamfile} ${referencefa} > ${output}
+    poschr=${pos%:*}
+    posbase=${pos#*:}
+    ${SAMTOOLS} tview -d T -p ${poschr}:$((posbase-80)) ${bamfile} ${referencefa} > ${output}.tmp
+    
+
+    prefixlen=80
+    headerseq=$(head -n 2 ${tviewoutput}.tmp | tail -n 1)
+    lenindelseq=$(echo ${headerseq:0:${prefixlen}} | tr -cd '*' | wc -c)
+    echo prefixINDEL:${lenindelseq}
+    #if [ ${lenindelseq} -gt 0 ]
+    #then
+        #i=0
+        #while((i < prefixlen))
+        #do
+            #if [ ${headerseq:$i:$((i+1))} == '*' ]
+            #then
+                ##echo ${headerseq:$i:$((i+1))}
+                #headerseq=${referencefa:0:$i}*${headerseq:$i}
+            #fi
+            #((i=i+1))
+        #done
+    #fi
+    #lenindelseq=$((prefixlen+lenindelseq))
+    #headerseq=${headerseq:0:$lenindelseq}
+
+
+    if [ ${lenindelseq} -gt 0 ]
+    then
+        cut -b $((prefixlen + lenindelseq + 1))- ${output}.tmp > ${output}
+        echo cutfrom:$((prefixlen + lenindelseq + 1))
+    else
+        cut -b $((prefixlen + 1))- ${output}.tmp > ${output}
+        echo cutfrom:$((prefixlen + 1))
+    fi
+    #rm ${output}.tmp
 }
 
 
@@ -47,7 +83,7 @@ main(){
     interestlen=$4
 
     tviewoutput=${bamfile##*/}
-    tviewoutput=${tviewoutput//./_}_tviw_${pos/:/_}.txt
+    tviewoutput=${tviewoutput//./_}_tview_${pos/:/_}.txt
     compositionfilteroutput=${tviewoutput//./_}.csv
 
     if [ ! -e ${bamfile}.bai ]
@@ -56,6 +92,7 @@ main(){
     fi
 
     sam_tview_to_txt $pos $bamfile $referencefa $tviewoutput
+
     referenceseq=$(head -n 2 ${tviewoutput} | tail -n 1)
     lenreferenceseq=$(echo ${referenceseq:0:${interestlen}} | tr -cd '*' | wc -c)
     echo ${lenreferenceseq}
@@ -75,6 +112,7 @@ main(){
     fi
     lenreferenceseq=$((interestlen+lenreferenceseq))
     referenceseq=${referenceseq:0:$lenreferenceseq}
+
     composition_filter ${referenceseq} ${tviewoutput} ${compositionfilteroutput}
 
 }
