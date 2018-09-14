@@ -9,5 +9,8 @@ sudo docker pull meren/anvio
 mkdir simulationVdata
 git clone https://github.com/merenlab/reads-for-assembly.git
 mv reads-for-assembly simulationVdata
-containerid=$(sudo docker run -d -it meren/anvio:latest)
-sudo docker container attach $containerid
+simulationVdata=$(readlink -f simulationVdata)
+sudo docker run -d -v $simulationVdata:/simulationVdata -it meren/anvio:latest #apt update
+containerid=$(sudo docker ps -a | head -n 2 | tail -n 1 | cut -d ' ' -f 1)
+sudo docker exec -it $containerid apt update
+sudo docker exec -it $containerid apt install -y vim
