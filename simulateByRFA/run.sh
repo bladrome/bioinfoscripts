@@ -12,5 +12,6 @@ mv reads-for-assembly simulationVdata
 simulationVdata=$(readlink -f simulationVdata)
 sudo docker run -d -v $simulationVdata:/simulationVdata -it meren/anvio:latest #apt update
 containerid=$(sudo docker ps -a | head -n 2 | tail -n 1 | cut -d ' ' -f 1)
+sudo docker container attach $containerid
 sudo docker exec -it $containerid apt update
 sudo docker exec -it $containerid apt install -y vim
