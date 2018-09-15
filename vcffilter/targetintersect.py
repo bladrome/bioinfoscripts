@@ -38,8 +38,11 @@ if snpfile.endswith("gz"):
 else:
     f = open(snpfile)
 for line in f:
-    field = line.split()
-    pos = '\t'.join([field[0], field[1]])
-    if pos in snpset:
-        print(line.strip())
+    if line.startswith("#"):
+        continue
+    else:
+        field = line.split()
+        pos = '\t'.join([field[0], field[1]])
+        if pos in snpset:
+            print(line.strip())
 f.close
