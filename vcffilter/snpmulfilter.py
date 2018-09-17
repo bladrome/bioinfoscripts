@@ -52,4 +52,4 @@ if __name__ == "__main__":
 
     for snplibrary in args.snplibrary:
         snpset = get_snpset(snplibrary)
-        snpfile = filterfile = snplibfilter(snpfile, snplibrary, snpset)
+        snpfile = snplibfilter(snpfile, snplibrary, snpset)
