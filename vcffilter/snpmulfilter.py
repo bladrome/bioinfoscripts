@@ -31,6 +31,8 @@ def snplibfilter(snpfile, snplibrary, snpset):
     else:
         f = open(snpfile)
     for line in f:
+        if line.startswith('#'):
+            continue
         field = line.split()
         pos = '\t'.join([field[0], field[1]])
         if pos in snpset:
