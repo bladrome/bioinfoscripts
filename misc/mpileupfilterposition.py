@@ -6,7 +6,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("vcffile")
-args = parser.parse_args(()
+args = parser.parse_args()
 
 vcffile = args.vcffile
 
